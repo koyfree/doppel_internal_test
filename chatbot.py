@@ -7,7 +7,7 @@ def load_prompt(chatbot_type, topic, language, profile):
     type_key = "dpl" if chatbot_type == "도플갱어 챗봇" else "gen"
     topic_key = "mtl" if topic == "정신 건강" else "rel"
     lang_key = "kor" if language == "한국어" else "eng"
-    path = f"prompts/{lang_key}/{type_key}_{topic_key}"
+    path = f"prompts/{lang_key}/{type_key}_{topic_key}.txt"
 
     try:
         with open(path, "r", encoding="utf-8") as f:
@@ -45,7 +45,11 @@ def run(user_name, profile, chatbot_type, topic, language):
             time.sleep(1.0)
 
         # 시스템 프롬프트 삽입
-        full_prompt = load_prompt(chatbot_type, topic, language, profile)
+        base_prompt = load_prompt(chatbot_type, topic, language)
+        full_prompt = (base_prompt.strip() +
+        "\n\n---------------------\nKnowledge Section:\n" +
+        profile
+        )
         st.session_state.messages.append({"role": "system", "content": full_prompt})
 
         # 챗봇 첫 응답 생성
