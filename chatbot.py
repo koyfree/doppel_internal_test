@@ -11,8 +11,7 @@ def load_prompt(chatbot_type, topic, language):
 
     try:
         with open(path, "r", encoding="utf-8") as f:
-            template = f.read()
-        return template.replace("{knowledge}", profile)
+            return f.read() 
     except FileNotFoundError:
         return f"[ERROR] 프롬프트 파일 {path} 없음"
 
@@ -46,9 +45,9 @@ def run(user_name, profile, chatbot_type, topic, language):
 
         # 시스템 프롬프트 삽입
         base_prompt = load_prompt(chatbot_type, topic, language)
-        full_prompt = (base_prompt.strip() +
-        "\n\n---------------------\nKnowledge Section:\n" +
-        profile
+        full_prompt = (base_prompt.strip()
+        + "\n\n---------------------\nKnowledge Section:\n"
+        + profile
         )
         st.session_state.messages.append({"role": "system", "content": full_prompt})
 
