@@ -5,6 +5,11 @@ from openai import OpenAI
 # 👉 스타일: 챗봇/사용자 말풍선 예쁘게 만들기
 st.markdown("""
 <style>
+
+body, div, span, input, textarea {
+    font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+}
+
 .chat-container {
     display: flex;
     margin: 6px 0;
