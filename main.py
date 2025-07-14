@@ -24,8 +24,8 @@ if st.session_state.step == "select":
     user_name = st.selectbox("이름을 선택하세요:", list(profiles.keys()))
 
     if user_name:
-        st.markdown("#### 🧾 당신의 프로필")
-        st.code(profiles[user_name])
+        # st.markdown("#### 🧾 당신의 프로필")
+        # st.code(profiles[user_name])
 
         chatbot_type = st.radio("챗봇 유형을 선택하세요:", ["도플갱어 챗봇", "일반 챗봇"])
         topic = st.radio("대화 주제를 선택하세요:", ["정신 건강", "관계 갈등"])
