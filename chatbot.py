@@ -2,46 +2,6 @@ import streamlit as st
 import time
 from openai import OpenAI
 
-# 👉 스타일: 말풍선 및 이모지 (폰트 포함)
-st.markdown("""
-<style>
-body, div, span, input, textarea {
-    font-family: "Noto Sans", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
-}
-.chat-container {
-    display: flex;
-    margin: 6px 0;
-}
-.chat-bubble {
-    padding: 10px 14px;
-    border-radius: 12px;
-    font-size: 16px;
-    line-height: 1.5;
-    max-width: 80%;
-}
-.chat-left {
-    justify-content: flex-start;
-}
-.chat-right {
-    justify-content: flex-end;
-    text-align: right;
-}
-.bot-bubble {
-    background-color: #e3f2fd;
-    color: #484848;
-}
-.user-bubble {
-    background-color: #fcf0c5;
-    color: #484848;
-}
-.icon {
-    font-size: 16px;
-    margin-right: 8px;
-    margin-top: 3px;
-}
-</style>
-""", unsafe_allow_html=True)
-
 # 👉 메시지 렌더링 함수
 def render_message(speaker, msg):
     if speaker == "🤖":
@@ -80,6 +40,46 @@ def load_prompt(chatbot_type, topic, language, profile):
 # 👉 메인 실행 함수
 def run(user_name, profile, chatbot_type, topic, language):
     client = OpenAI(api_key=st.secrets["openai"]["api_key"])
+
+    st.markdown("""
+<style>
+body, div, span, input, textarea {
+    font-family: "Noto Sans", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
+}
+.chat-container {
+    display: flex;
+    margin: 6px 0;
+}
+.chat-bubble {
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 80%;
+}
+.chat-left {
+    justify-content: flex-start;
+}
+.chat-right {
+    justify-content: flex-end;
+    text-align: right;
+}
+.bot-bubble {
+    background-color: #e3f2fd;
+    color: #484848;
+}
+.user-bubble {
+    background-color: #fcf0c5;
+    color: #484848;
+}
+.icon {
+    font-size: 16px;
+    margin-right: 8px;
+    margin-top: 3px;
+}
+</style>
+""", unsafe_allow_html=True)
+    
 
     # 세션 상태 초기화
     for key, default in {
