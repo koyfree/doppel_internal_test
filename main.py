@@ -1,11 +1,10 @@
 import streamlit as st
 import pandas as pd
+from knowledge_builder import build_knowledge_dict
 
 # 구글시트에서 CSV 읽기 (전체공개 설정 시 작동)
-CSV_URL = (
-    "https://docs.google.com/spreadsheets/d/"
-    "1dbYNM6ICiKlLGwZUQbl_zB2pKWe49tYrqOun_k5I6h8"
-    "/export?format=csv"
+SHEET_URL = (
+    "https://docs.google.com/spreadsheets/d/1dbYNM6ICiKlLGwZUQbl_zB2pKWe49tYrqOun_k5I6h8/edit?usp=sharing"
 )
 
 # 세션 단계 초기화
@@ -15,22 +14,7 @@ if "step" not in st.session_state:
 # 프로필 불러오기
 @st.cache_data
 def load_profiles():
-    df = pd.read_csv(CSV_URL)
-    profiles = {}
-    for _, row in df.iterrows():
-        name = row["Name"]
-        profile_text = (
-            "Profile:\n\n"
-            "[Demographics]\n" + str(row["Demo"]) + "\n\n"
-            "[Personality]\n" + str(row["Big5"]) + "\n\n"
-            "[Top 5 Things this character loves and hates]\n"
-            + "• What this character love: " + str(row["top5_love"]) + "\n"
-            + "• What this character hate: " + str(row["top5_hate"]) + "\n\n"
-            "[Weekly Activities Overview]\n"
-            + "• " + str(row["weekly_activities"])
-        )
-        profiles[name] = profile_text
-    return profiles
+    return build_knowledge_dict(SHEET_URL)
 
 # STEP 1: 조건 선택
 if st.session_state.step == "select":
