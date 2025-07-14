@@ -24,11 +24,11 @@ st.markdown("""
     text-align: right;
 }
 .bot-bubble {
-    background-color: #e8f5e9;
+    background-color: #e3f2fd;
     color: #2e7d32;
 }
 .user-bubble {
-    background-color: #e3f2fd;
+    background-color: #fcf0c5;
     color: #1565c0;
 }
 .icon {
@@ -53,12 +53,12 @@ def render_message(speaker, msg):
     html = f"""
     <div class="chat-container {align}">
         <div class="chat-bubble {bubble}">
-            <span style="font-size: 20px; margin-right: 8px;">{icon}</span>{msg}
+            <span class="icon">{icon}</span> {msg}
         </div>
     </div>
     """
     st.markdown(html, unsafe_allow_html=True)
-    
+
 # 👉 프롬프트 불러오기
 def load_prompt(chatbot_type, topic, language):
     type_key = "dpl" if chatbot_type == "도플갱어 챗봇" else "gen"
@@ -145,7 +145,7 @@ def run(user_name, profile, chatbot_type, topic, language):
 
     # 👉 챗봇 응답 생성
     if st.session_state.awaiting_response:
-        with st.spinner("🤖 챗봇이 입 중이에요..."):
+        with st.spinner("🤖 챗봇이 입력 중이에요..."):
             try:
                 response = client.chat.completions.create(
                     model="gpt-4.1",
