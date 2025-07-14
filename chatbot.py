@@ -25,11 +25,11 @@ st.markdown("""
 }
 .bot-bubble {
     background-color: #e3f2fd;
-    color: #2e7d32;
+    color: #000000;
 }
 .user-bubble {
     background-color: #fcf0c5;
-    color: #1565c0;
+    color: #000000;
 }
 .icon {
     font-size: 20px;
