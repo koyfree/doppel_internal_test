@@ -51,14 +51,14 @@ def run(user_name, profile, chatbot_type, topic, language):
         )
         st.session_state.messages.append({"role": "system", "content": full_prompt})
 
-        # # 챗봇 첫 응답 생성
-        # with st.spinner("🤖 챗봇이 인사말을 준비 중이에요..."):
-        #     response = client.chat.completions.create(
-        #         model="gpt-4.1",
-        #         messages=st.session_state.messages,
-        #         temperature=1,
-        #         max_tokens=2048
-        #     )
+        # 챗봇 첫 응답 생성
+        with st.spinner("🤖 챗봇이 응답 중이에요..."):
+            response = client.chat.completions.create(
+                model="gpt-4.1",
+                messages=st.session_state.messages,
+                temperature=1,
+                max_tokens=2048
+            )
         first_reply = response.choices[0].message.content
         st.session_state.chat_history.append(("🤖", first_reply))
         st.session_state.messages.append({"role": "assistant", "content": first_reply})
