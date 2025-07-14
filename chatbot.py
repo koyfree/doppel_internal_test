@@ -2,14 +2,12 @@ import streamlit as st
 import time
 from openai import OpenAI
 
-# 👉 스타일: 챗봇/사용자 말풍선 예쁘게 만들기
+# 👉 스타일: 말풍선 & 폰트 설정
 st.markdown("""
 <style>
-
 body, div, span, input, textarea {
     font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
 }
-
 .chat-container {
     display: flex;
     margin: 6px 0;
@@ -44,6 +42,7 @@ body, div, span, input, textarea {
 </style>
 """, unsafe_allow_html=True)
 
+
 # 👉 메시지 렌더링 함수
 def render_message(speaker, msg):
     if speaker == "🤖":
@@ -64,7 +63,8 @@ def render_message(speaker, msg):
     """
     st.markdown(html, unsafe_allow_html=True)
 
-# 👉 프롬프트 불러오기
+
+# 👉 프롬프트 파일 불러오기
 def load_prompt(chatbot_type, topic, language):
     type_key = "dpl" if chatbot_type == "도플갱어 챗봇" else "gen"
     topic_key = "mtl" if topic == "정신 건강" else "rel"
@@ -77,11 +77,12 @@ def load_prompt(chatbot_type, topic, language):
     except FileNotFoundError:
         return f"[ERROR] 프롬프트 파일 {path} 없음"
 
+
 # 👉 메인 실행 함수
 def run(user_name, profile, chatbot_type, topic, language):
     client = OpenAI(api_key=st.secrets["openai"]["api_key"])
 
-    # 세션 상태 초기화
+    # 세션 초기화
     for key, default in {
         "messages": [],
         "chat_history": [],
@@ -94,7 +95,7 @@ def run(user_name, profile, chatbot_type, topic, language):
 
     st.title("🧠 AITwinBot 대화 시작")
 
-    # 👉 인트로 메시지 & 첫 system prompt 설정
+    # ✅ 인트로 메시지 출력 & 시스템 프롬프트 초기화
     if not st.session_state.intro_done:
         intro_messages = [
             f"{user_name}, 안녕! 나는 너의 데이터를 기반으로 만들어진 너의 AITwinBot이야. 만나서 반가워!",
@@ -107,11 +108,12 @@ def run(user_name, profile, chatbot_type, topic, language):
             render_message("🤖", msg)
             time.sleep(1.0)
 
+        # 시스템 프롬프트 설정
         base_prompt = load_prompt(chatbot_type, topic, language)
         full_prompt = base_prompt.strip() + "\n\n---------------------\nKnowledge Section:\n" + profile
         st.session_state.messages.append({"role": "system", "content": full_prompt})
 
-        # LLM 첫 응답
+        # 첫 assistant 응답 생성
         with st.spinner("🤖 챗봇이 입력 중이에요..."):
             try:
                 response = client.chat.completions.create(
@@ -129,26 +131,28 @@ def run(user_name, profile, chatbot_type, topic, language):
         st.session_state.intro_done = True
         st.rerun()
 
-    # 👉 대화 렌더링
+    # ✅ 기존 메시지 렌더링
     for speaker, msg in st.session_state.chat_history:
         render_message(speaker, msg)
 
-    # 👉 입력 → 입력만 받고 rerun
+    # ✅ 사용자 입력 받기
     user_input = st.chat_input("메시지를 입력하세요")
     if user_input:
         st.session_state.pending_user_input = user_input
         st.rerun()
 
-    # 👉 입력 → 사용자 메시지 먼저 출력
+    # ✅ 사용자 입력 처리
     if st.session_state.pending_user_input and not st.session_state.awaiting_response:
         user_msg = st.session_state.pending_user_input
         st.session_state.chat_history.append(("👤", user_msg))
         st.session_state.messages.append({"role": "user", "content": user_msg})
+        render_message("👤", user_msg)
+
         st.session_state.pending_user_input = None
         st.session_state.awaiting_response = True
         st.rerun()
 
-    # 👉 챗봇 응답 생성
+    # ✅ 챗봇 응답 생성
     if st.session_state.awaiting_response:
         with st.spinner("🤖 챗봇이 입력 중이에요..."):
             try:
@@ -164,5 +168,7 @@ def run(user_name, profile, chatbot_type, topic, language):
 
         st.session_state.chat_history.append(("🤖", reply))
         st.session_state.messages.append({"role": "assistant", "content": reply})
+        render_message("🤖", reply)
+
         st.session_state.awaiting_response = False
         st.rerun()
