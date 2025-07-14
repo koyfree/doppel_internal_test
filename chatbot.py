@@ -33,10 +33,10 @@ def run(user_name, profile, chatbot_type, topic, language):
     # 인트로 메시지 4개 출력 (1회만)
     if not st.session_state.intro_done:
         intro_messages = [
-            f"{user_name}님, 만나서 반가워요!",
-            "이제부터 당신과 대화를 나눌 챗봇이에요.",
-            "당신의 프로필 정보를 바탕으로 대화를 도와드릴게요.",
-            "잠시 후 제가 먼저 말을 걸게요 😊"
+            f"{user_name}, 안녕! 나는 너의 데이터를 기반으로 만들어진 너의 AITwinBot이야. 만나서 반가워!",
+            "본격적으로 시작하기 전에, 우리 대화가 어떻게 진행될지 간단히 설명할게.",
+            "내가 특정 주제에 대해 몇 가지 물어볼게. 그걸 바탕으로, 이 주제에 대한 내 생각을 세 부분으로 나누어 얘기할거야. 마지막엔 대화가 어땠는지 평가할 수 있는 설문 링크를 알려 줄게. 꼭 참여해 줘!",
+            "좋아, 그럼 시작할게! 😊"
         ]
         for msg in intro_messages:
             st.session_state.chat_history.append(("🤖", msg))
@@ -51,14 +51,14 @@ def run(user_name, profile, chatbot_type, topic, language):
         )
         st.session_state.messages.append({"role": "system", "content": full_prompt})
 
-        # 챗봇 첫 응답 생성
-        with st.spinner("🤖 챗봇이 인사말을 준비 중이에요..."):
-            response = client.chat.completions.create(
-                model="gpt-4.1",
-                messages=st.session_state.messages,
-                temperature=1,
-                max_tokens=2048
-            )
+        # # 챗봇 첫 응답 생성
+        # with st.spinner("🤖 챗봇이 인사말을 준비 중이에요..."):
+        #     response = client.chat.completions.create(
+        #         model="gpt-4.1",
+        #         messages=st.session_state.messages,
+        #         temperature=1,
+        #         max_tokens=2048
+        #     )
         first_reply = response.choices[0].message.content
         st.session_state.chat_history.append(("🤖", first_reply))
         st.session_state.messages.append({"role": "assistant", "content": first_reply})
