@@ -9,21 +9,20 @@ def build_knowledge_dict(sheet_url: str) -> dict:
     knowledge = {}
 
     for _, row in df.iterrows():
-        name = row['NAME']
+        name = row['Name']
         knowledge[name] = f"""
 Profile:
 [Demographics]
-\t•\tAge: {row['AGE']}
-\t•\tSex: {row['SEX']}
-\t•\tOccupation: {row['JOB']}
-\t•\tLiving Style: {row['LIVING']}
+{row['Demo']}
 
 [Personality]
-\t•\tPersonality: {row['Personality']}
+{row['Big5']}
 
 [Top 5 Things this character loves and hates]
-\t•\tWhat this character love: {row['top5_love']}
-\t•\tWhat this character hate: {row['top5_hate']}
+\t•\tWhat this character love: 
+{row['top5_love']}
+\t•\tWhat this character hate: 
+{row['top5_hate']}
 
 [Weekly Activities Overview]
 \t•\t{row['weekly_activities']}
