@@ -30,14 +30,14 @@ body, div, span, input, textarea {
 }
 .bot-bubble {
     background-color: #e3f2fd;
-    color: #000000;
+    color: #484848;
 }
 .user-bubble {
     background-color: #fcf0c5;
-    color: #000000;
+    color: #484848;
 }
 .icon {
-    font-size: 20px;
+    font-size: 16px;
     margin-right: 8px;
     margin-top: 3px;
 }
