@@ -43,13 +43,13 @@ if st.session_state.step == "select":
             st.rerun()
 
 # STEP 2: 단일 chatbot 모듈 실행
-elif st.session_state.step == "chat":
+elif st.session_state.step == "chat":  
     if st.session_state.language == "한국어":
-        import chatbot_kor
+        import chatbot_kor as app
     elif st.session_state.language == "영어":
-        import chatbot_eng
+        import chatbot_eng as app
 
-    chatbot.run(
+    app.run(
         user_name=st.session_state.user_name,
         profile=st.session_state.profile,
         chatbot_type=st.session_state.chatbot_type,
