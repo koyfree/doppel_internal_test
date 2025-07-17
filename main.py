@@ -44,7 +44,10 @@ if st.session_state.step == "select":
 
 # STEP 2: 단일 chatbot 모듈 실행
 elif st.session_state.step == "chat":
-    import chatbot  # 단일 챗봇 모듈
+    if language == "한국어":
+        import chatbot_kor
+    elif language == "영어":
+        import chatbot_eng
 
     chatbot.run(
         user_name=st.session_state.user_name,
