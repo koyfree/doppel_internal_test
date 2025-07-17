@@ -21,9 +21,11 @@ if st.session_state.step == "select":
     st.title("실험 조건 선택")
 
     profiles = load_profiles()
-    user_name = st.selectbox("이름을 선택하세요:", list(profiles.keys()))
+    raw_names = list(profiles.keys())
+    name_options = ["--- 이름을 선택하세요 ---"] + raw_names
+    user_name = st.selectbox("이름을 선택하세요:", name_options)
 
-    if user_name:
+    if user_name != "--- 이름을 선택하세요 ---":
         # st.markdown("#### 🧾 당신의 프로필")
         # st.code(profiles[user_name])
 
