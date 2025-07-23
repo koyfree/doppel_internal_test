@@ -21,7 +21,7 @@ def render_message(speaker, msg):
 def load_prompt(chatbot_type, topic, language, profile):
     type_key = "dpl" if chatbot_type == "도플갱어 챗봇" else "gen"
     topic_key = "mtl" if topic == "정신 건강" else "rel"
-    lang_key = "kor" if language == "한국어" else "eng"
+    lang_key = "eng"
     path = f"prompts/{lang_key}/{type_key}_{topic_key}.txt"
 
     try:
