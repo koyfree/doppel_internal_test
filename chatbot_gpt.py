@@ -97,7 +97,7 @@ body, div, span, input, textarea {
     **🙋 사용자 이름:** {user_name}  
     **🧠 챗봇 유형:** {chatbot_type}  
     **💬 대화 주제:** {topic}  
-    **⚙️ 사용 모델:** {language} / {st.session_state.model}
+    **⚙️ 사용 모델:** {st.session_state.model}
     """)
     # ✅ 인트로 메시지 & 첫 응답
     if not st.session_state.intro_done:
