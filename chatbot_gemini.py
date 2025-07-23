@@ -35,7 +35,7 @@ def load_prompt(chatbot_type, topic, language, profile):
 # 메인 실행
 def run(user_name, profile, chatbot_type, topic, language):
     genai.configure(api_key=st.secrets["gemini"]["api_key"])
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-2.5-flash")
 
     st.markdown("""
 <style>
