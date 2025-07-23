@@ -87,6 +87,12 @@ body, div, span, input, textarea {
             st.session_state[key] = default
 
     st.title("🧠 AITwinBot 대화 시작")
+    st.markdown(f"""
+    **🙋 사용자 이름:** {user_name}  
+    **🧠 챗봇 유형:** {chatbot_type}  
+    **💬 대화 주제:** {topic}  
+    **⚙️ 사용 모델:** {st.session_state.model}
+    """)
 
     if not st.session_state.intro_done:
         intro_messages = [
