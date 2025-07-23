@@ -144,7 +144,7 @@ body, div, span, input, textarea {
         with st.spinner("🤖 Twinbot is typing now..."):
             try:
                 response = client.messages.create(
-                    model="claude-3-sonnet-20250514",
+                    model="claude-sonnet-4-20250514",
                     messages=st.session_state.messages,
                     max_tokens=2048
                 )
