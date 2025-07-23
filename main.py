@@ -57,6 +57,6 @@ elif st.session_state.step == "chat":
         user_name=st.session_state.user_name,
         profile=st.session_state.profile,
         chatbot_type=st.session_state.chatbot_type,
-        topic=st.session_state.topic
+        topic=st.session_state.topic,
         language="eng"
     )
