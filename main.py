@@ -31,7 +31,7 @@ if st.session_state.step == "select":
 
         chatbot_type = st.radio("챗봇 유형을 선택하세요:", ["도플갱어 챗봇", "일반 챗봇"])
         topic = st.radio("대화 주제를 선택하세요:", ["정신 건강", "관계 갈등"])
-        language = st.radio("언어를 선택하세요:", ["한국어", "영어"])
+        model = st.radio("모델을 선택하세요:", ["GPT-4.1", "Claude Sonnet 4", "Gemini 2.5 Flash"])
 
         if st.button("다음"):
             st.session_state.update({
@@ -39,22 +39,24 @@ if st.session_state.step == "select":
                 "profile": profiles[user_name],
                 "chatbot_type": chatbot_type,
                 "topic": topic,
-                "language": language,
+                "model": model,
                 "step": "chat"
             })
             st.rerun()
 
 # STEP 2: 단일 chatbot 모듈 실행
 elif st.session_state.step == "chat":  
-    if st.session_state.language == "한국어":
-        import chatbot_kor as app
-    elif st.session_state.language == "영어":
-        import chatbot_eng as app
+    if st.session_state.model == "GPT-4.1":
+        import chatbot_gpt as app
+    elif st.session_state.model == "Claude Sonnet 4":
+        import chatbot_claude as app
+    elif st.session_state.model == "Gemini 2.5 Flash":
+        import chatbot_gemini as app
 
     app.run(
         user_name=st.session_state.user_name,
         profile=st.session_state.profile,
         chatbot_type=st.session_state.chatbot_type,
         topic=st.session_state.topic,
-        language=st.session_state.language
+        model=st.session_state.model
     )
