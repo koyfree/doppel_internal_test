@@ -58,4 +58,5 @@ elif st.session_state.step == "chat":
         profile=st.session_state.profile,
         chatbot_type=st.session_state.chatbot_type,
         topic=st.session_state.topic
+        language="eng"
     )
