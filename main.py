@@ -30,10 +30,10 @@ if st.session_state.step == "select":
         # st.code(profiles[user_name])
 
         chatbot_type = st.radio("챗봇 유형을 선택하세요:", ["도플갱어 챗봇"#, "일반 챗봇"])
-                                                 ]
+                                                 ])
         topic = st.radio("대화 주제를 선택하세요:", ["정신 건강", "관계 갈등"])
         model = st.radio("모델을 선택하세요:", ["GPT-4.1"#, "Claude Sonnet 4", "Gemini 2.5 Flash"])
-                                       ]
+                                       ])
 
         if st.button("다음"):
             st.session_state.update({
