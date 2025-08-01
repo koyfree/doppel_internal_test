@@ -109,7 +109,7 @@ body, div, span, input, textarea {
 "No pressure — just share whatever comes to mind, comfortably.",
 "After that, I’ll share my thoughts in three parts.",
 "It’d be great if you could give me some feedback along the way on how I’m doing!",
-"Once our conversation is over, I’ll give you a link to a follow-up survey—please be sure to check it out!",
+"Once our conversation is over, you’ll be asked to fill out a short survey—please be sure to check it out!",
 "Alright, let’s get started! 😊"
         ]
 
