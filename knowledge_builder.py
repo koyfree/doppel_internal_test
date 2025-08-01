@@ -18,13 +18,18 @@ Profile:
 [Personality]
 {row['Big5']}
 
-[Top 5 Things this character loves and hates]
-\t•\tWhat this character love: 
+Below is a transcript of an interview where the chatbot asked the user about their preferences and experiences. 
+Use this to understand what the character likes, dislikes, how their week went, and how they naturally express themselves in tone and style.
+Only the user's responses (marked as "User") should be used as knowledge. 
+The chatbot's questions (marked as "Chatbot") are only provided to give context and should not be treated as part of the user’s knowledge.
+
+[Interview: Top 5 Things This Character Loves]
 {row['top5_love']}
-\t•\tWhat this character hate: 
+
+[Interview: Top 5 Things This Character Hates]
 {row['top5_hate']}
 
-[Weekly Activities Overview]
-\t•\t{row['weekly_activities']}
+[Interview: Weekly Activities Overview]
+{row['weekly_activities']}
 """
     return knowledge
