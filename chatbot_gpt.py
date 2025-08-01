@@ -102,13 +102,17 @@ body, div, span, input, textarea {
     # ✅ 인트로 메시지 & 첫 응답
     if not st.session_state.intro_done:
         intro_messages = [
-            f"{user_name}, Hi! I’m your AI TwinBot, created based on your data. Nice to meet you!",
-            "Before we really get started, let me briefly explain how our conversation will go.",
-            "I’ll ask you a few questions about a specific topic. Based on your answers, I’ll share my thoughts on that topic in three parts.",
-            "It’d be great if you could give me some feedback along the way on how I’m doing!",
-            "Once our conversation is over, I’ll share a link to a follow-up survey—please be sure to check it out!",
-            "Alright, let’s get started! 😊"
+            f"{user_name}, Hi! I’m your AI TwinBot, created just for you, based on your data. Nice to meet you!",
+"Today, I’d love to have a short chat and get a sense of how you've been feeling and thinking lately.",
+"Before we really get started, let me briefly explain how our conversation will go.",
+"To start, I want to hear how you have been lately. Then, I’ll follow up with a few simple questions to get to know your thoughts and feelings a bit more.",
+"No pressure — just share whatever comes to mind, comfortably.",
+"After that, I’ll share my thoughts in three parts.",
+"It’d be great if you could give me some feedback along the way on how I’m doing!",
+"Once our conversation is over, I’ll give you a link to a follow-up survey—please be sure to check it out!",
+"Alright, let’s get started! 😊"
         ]
+
         for msg in intro_messages:
             st.session_state.chat_history.append(("🤖", msg))
             render_message("🤖", msg)
