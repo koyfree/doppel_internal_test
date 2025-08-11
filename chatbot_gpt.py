@@ -2,6 +2,11 @@ import streamlit as st
 import time
 from openai import OpenAI
 
+# ✅ 종료 멘트 (정확히 이 문장을 내뱉을 때 종료 처리)
+END_CUE = (
+    "You can share what the experience was like for you on the next page!"
+)
+
 # 👉 메시지 렌더링 함수
 def render_message(speaker, msg):
     if speaker == "🤖":
@@ -37,7 +42,6 @@ def load_prompt(chatbot_type, topic, language, profile):
 
     return base_prompt.strip() + "\n\n---------------------\nKnowledge Section:\n" + profile
 
-# 👉 메인 실행 함수
 def run(user_name, profile, chatbot_type, topic, language):
     client = OpenAI(api_key=st.secrets["openai"]["api_key"])
 
@@ -57,29 +61,13 @@ body, div, span, input, textarea {
     line-height: 1.5;
     max-width: 80%;
 }
-.chat-left {
-    justify-content: flex-start;
-}
-.chat-right {
-    justify-content: flex-end;
-    text-align: right;
-}
-.bot-bubble {
-    background-color: #e3f2fd;
-    color: #484848;
-}
-.user-bubble {
-    background-color: #fcf0c5;
-    color: #484848;
-}
-.icon {
-    font-size: 16px;
-    margin-right: 8px;
-    margin-top: 3px;
-}
+.chat-left { justify-content: flex-start; }
+.chat-right { justify-content: flex-end; text-align: right; }
+.bot-bubble { background-color: #e3f2fd; color: #484848; }
+.user-bubble { background-color: #fcf0c5; color: #484848; }
+.icon { font-size: 16px; margin-right: 8px; margin-top: 3px; }
 </style>
 """, unsafe_allow_html=True)
-    
 
     # 세션 상태 초기화
     for key, default in {
@@ -87,7 +75,8 @@ body, div, span, input, textarea {
         "chat_history": [],
         "intro_done": False,
         "awaiting_response": False,
-        "pending_user_input": None
+        "pending_user_input": None,
+        "interview_phase": "chatting",   # ✅ 추가: 진행 상태
     }.items():
         if key not in st.session_state:
             st.session_state[key] = default
@@ -99,18 +88,19 @@ body, div, span, input, textarea {
     **💬 대화 주제:** {topic}  
     **⚙️ 사용 모델:** {st.session_state.model}
     """)
+
     # ✅ 인트로 메시지 & 첫 응답
     if not st.session_state.intro_done:
         intro_messages = [
             f"{user_name}, Hi! I’m your AI TwinBot, created just for you, based on your data. Nice to meet you!",
-"Today, I’d love to have a short chat and get a sense of how you've been feeling and thinking lately.",
-"Before we really get started, let me briefly explain how our conversation will go.",
-"To start, I want to hear how you have been lately. Then, I’ll follow up with a few simple questions to get to know your thoughts and feelings a bit more.",
-"No pressure — just share whatever comes to mind, comfortably.",
-"After that, I’ll share my thoughts in three parts.",
-"It’d be great if you could give me some feedback along the way on how I’m doing!",
-"Once our conversation is over, you’ll be asked to fill out a short survey—please be sure to check it out!",
-"Alright, let’s get started! 😊"
+            "Today, I’d love to have a short chat and get a sense of how you've been feeling and thinking lately.",
+            "Before we really get started, let me briefly explain how our conversation will go.",
+            "To start, I want to hear how you have been lately. Then, I’ll follow up with a few simple questions to get to know your thoughts and feelings a bit more.",
+            "No pressure — just share whatever comes to mind, comfortably.",
+            "After that, I’ll share my thoughts in three parts.",
+            "It’d be great if you could give me some feedback along the way on how I’m doing!",
+            "Once our conversation is over, you’ll be asked to fill out a short survey—please be sure to check it out!",
+            "Alright, let’s get started! 😊"
         ]
 
         for msg in intro_messages:
@@ -137,6 +127,10 @@ body, div, span, input, textarea {
         st.session_state.messages.append({"role": "assistant", "content": first_reply})
         render_message("🤖", first_reply)
 
+        # ✅ 첫 응답에서도 종료 멘트 감지
+        if END_CUE in first_reply:
+            st.session_state.interview_phase = "done"
+
         st.session_state.intro_done = True
         st.rerun()
 
@@ -144,8 +138,15 @@ body, div, span, input, textarea {
     for speaker, msg in st.session_state.chat_history:
         render_message(speaker, msg)
 
+    # ✅ 입력창 비활성화 (done 상태)
+    input_disabled = st.session_state.get("interview_phase") == "done"
+    user_input = st.chat_input("Enter your message.", disabled=input_disabled)
+
+    # ✅ done이면 추가 입력 처리 중단
+    if input_disabled:
+        return
+
     # ✅ 사용자 입력 감지 및 처리
-    user_input = st.chat_input("Enter your message.")
     if user_input:
         st.session_state.pending_user_input = user_input
         st.rerun()
@@ -178,6 +179,13 @@ body, div, span, input, textarea {
         st.session_state.chat_history.append(("🤖", reply))
         st.session_state.messages.append({"role": "assistant", "content": reply})
         render_message("🤖", reply)
+
+        # ✅ 종료 멘트 감지 → 상태 전환 + 이후 입력 차단
+        if END_CUE in reply:
+            st.session_state.interview_phase = "done"
+            st.session_state.awaiting_response = False
+            st.session_state.pending_user_input = None
+            st.rerun()
 
         st.session_state.awaiting_response = False
         st.rerun()
