@@ -179,7 +179,6 @@ body, div, span, input, textarea {
             st.markdown("""
 **👉 [평가하기](https://docs.google.com/forms/d/e/1FAIpQLScgaEChMcfui-9CW_58Yv4jwqP33Pa3iNAIY8xEzF19kFL1qQ/viewform?usp=dialog)**
 """)
-            st.stop()
         # rerun 없이 그대로 아래 렌더 단계로 이동
         else:
             st.session_state.awaiting_response = False
