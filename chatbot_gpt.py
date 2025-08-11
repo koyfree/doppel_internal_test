@@ -181,6 +181,10 @@ body, div, span, input, textarea {
         # ✅ 끝멘트 감지 → 상태만 done으로 바꿈 (렌더 단계에서 링크 & stop 처리)
         if END_CUE in reply:
             st.session_state.interview_phase = "done"
-
-        st.session_state.awaiting_response = False
-        st.rerun()
+            st.session_state.awaiting_response = False
+            st.session_state.pending_user_input = None
+        # rerun 없이 그대로 아래 렌더 단계로 이동
+        else:
+            st.session_state.awaiting_response = False
+            st.rerun()
+    
