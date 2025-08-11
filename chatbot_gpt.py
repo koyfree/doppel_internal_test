@@ -4,7 +4,7 @@ from openai import OpenAI
 
 # ✅ 종료 멘트 (정확히 이 문장을 내뱉을 때 종료 처리)
 END_CUE = (
-    "You can share what the experience was like for you on the next page!"
+    "That’s all from me for now! Hope our talk helped, even just a little. You can share what the experience was like for you on the next page!"
 )
 
 # 👉 메시지 렌더링 함수
