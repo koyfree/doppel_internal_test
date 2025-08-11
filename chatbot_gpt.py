@@ -2,7 +2,7 @@ import streamlit as st
 import time
 from openai import OpenAI
 
-# ✅ 종료 멘트 (정확히 이 문장을 내뱉을 때 종료 처리)
+# ✅ 종료 멘트 (모델이 이 문장을 그대로 말함)
 END_CUE = (
     "That’s all from me for now! Hope our talk helped, even just a little. You can share what the experience was like for you on the next page!"
 )
@@ -42,6 +42,7 @@ def load_prompt(chatbot_type, topic, language, profile):
 
     return base_prompt.strip() + "\n\n---------------------\nKnowledge Section:\n" + profile
 
+# 👉 메인 실행 함수
 def run(user_name, profile, chatbot_type, topic, language):
     client = OpenAI(api_key=st.secrets["openai"]["api_key"])
 
@@ -50,17 +51,8 @@ def run(user_name, profile, chatbot_type, topic, language):
 body, div, span, input, textarea {
     font-family: "Noto Sans", "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif !important;
 }
-.chat-container {
-    display: flex;
-    margin: 6px 0;
-}
-.chat-bubble {
-    padding: 10px 14px;
-    border-radius: 12px;
-    font-size: 16px;
-    line-height: 1.5;
-    max-width: 80%;
-}
+.chat-container { display: flex; margin: 6px 0; }
+.chat-bubble { padding: 10px 14px; border-radius: 12px; font-size: 16px; line-height: 1.5; max-width: 80%; }
 .chat-left { justify-content: flex-start; }
 .chat-right { justify-content: flex-end; text-align: right; }
 .bot-bubble { background-color: #e3f2fd; color: #484848; }
@@ -68,7 +60,7 @@ body, div, span, input, textarea {
 .icon { font-size: 16px; margin-right: 8px; margin-top: 3px; }
 </style>
 """, unsafe_allow_html=True)
-
+    
     # 세션 상태 초기화
     for key, default in {
         "messages": [],
@@ -76,7 +68,7 @@ body, div, span, input, textarea {
         "intro_done": False,
         "awaiting_response": False,
         "pending_user_input": None,
-        "interview_phase": "chatting",   # ✅ 추가: 진행 상태
+        "interview_phase": "chatting",   # 진행 상태
     }.items():
         if key not in st.session_state:
             st.session_state[key] = default
@@ -138,15 +130,17 @@ body, div, span, input, textarea {
     for speaker, msg in st.session_state.chat_history:
         render_message(speaker, msg)
 
-    # ✅ 입력창 비활성화 (done 상태)
-    input_disabled = st.session_state.get("interview_phase") == "done"
-    user_input = st.chat_input("Enter your message.", disabled=input_disabled)
-
-    # ✅ done이면 추가 입력 처리 중단
-    if input_disabled:
-        return
+    # ✅ 종료 상태면 안내 말풍선 출력 후 즉시 중단 (가장 간단한 방식)
+    if st.session_state.interview_phase == "done":
+        with st.chat_message("assistant"):
+            st.markdown("""
+✅ 대화가 여기서 마무리되었어요! 아래 링크를 눌러 어떠셨는지 평가 부탁드립니다!
+👉 [평가하기](https://docs.google.com/forms/d/e/1FAIpQLScgaEChMcfui-9CW_58Yv4jwqP33Pa3iNAIY8xEzF19kFL1qQ/viewform?usp=dialog)
+""")
+        st.stop()
 
     # ✅ 사용자 입력 감지 및 처리
+    user_input = st.chat_input("Enter your message.")
     if user_input:
         st.session_state.pending_user_input = user_input
         st.rerun()
@@ -180,12 +174,9 @@ body, div, span, input, textarea {
         st.session_state.messages.append({"role": "assistant", "content": reply})
         render_message("🤖", reply)
 
-        # ✅ 종료 멘트 감지 → 상태 전환 + 이후 입력 차단
+        # ✅ 끝멘트 감지 → 상태만 done으로 바꿈 (렌더 단계에서 링크 & stop 처리)
         if END_CUE in reply:
             st.session_state.interview_phase = "done"
-            st.session_state.awaiting_response = False
-            st.session_state.pending_user_input = None
-            st.rerun()
 
         st.session_state.awaiting_response = False
         st.rerun()
