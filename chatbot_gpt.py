@@ -178,11 +178,20 @@ body, div, span, input, textarea {
         st.session_state.messages.append({"role": "assistant", "content": reply})
         render_message("🤖", reply)
 
-        # ✅ 끝멘트 감지 → 상태만 done으로 바꿈 (렌더 단계에서 링크 & stop 처리)
+        # ✅ 끝멘트 감지
         if END_CUE in reply:
             st.session_state.interview_phase = "done"
             st.session_state.awaiting_response = False
             st.session_state.pending_user_input = None
+            st.markdown("""
+
+""")
+        st.markdown("""
+**✅ 대화가 여기서 마무리되었어요! 아래 링크를 눌러 어떠셨는지 평가 부탁드립니다!**
+""")
+        st.markdown("""
+**👉 [평가하기](https://docs.google.com/forms/d/e/1FAIpQLScgaEChMcfui-9CW_58Yv4jwqP33Pa3iNAIY8xEzF19kFL1qQ/viewform?usp=dialog)**
+""")
         # rerun 없이 그대로 아래 렌더 단계로 이동
         else:
             st.session_state.awaiting_response = False
