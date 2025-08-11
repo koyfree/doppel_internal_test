@@ -130,8 +130,7 @@ body, div, span, input, textarea {
     for speaker, msg in st.session_state.chat_history:
         render_message(speaker, msg)
 
-    if END_CUE in reply:
-        st.session_state.interview_phase = "done"
+    if st.session_state.interview_phase == "done":
         st.session_state.awaiting_response = False
         st.session_state.pending_user_input = None
         st.markdown("""
