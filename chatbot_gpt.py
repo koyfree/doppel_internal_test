@@ -130,19 +130,6 @@ body, div, span, input, textarea {
     for speaker, msg in st.session_state.chat_history:
         render_message(speaker, msg)
 
-    # ✅ 종료 상태면 안내 말풍선 출력 후 즉시 중단 (가장 간단한 방식)
-    if st.session_state.interview_phase == "done":
-        st.markdown("""
-
-""")
-        st.markdown("""
-**✅ 대화가 여기서 마무리되었어요! 아래 링크를 눌러 어떠셨는지 평가 부탁드립니다!**
-""")
-        st.markdown("""
-**👉 [평가하기](https://docs.google.com/forms/d/e/1FAIpQLScgaEChMcfui-9CW_58Yv4jwqP33Pa3iNAIY8xEzF19kFL1qQ/viewform?usp=dialog)**
-""")
-        st.stop()
-
     # ✅ 사용자 입력 감지 및 처리
     user_input = st.chat_input("Enter your message.")
     if user_input:
@@ -192,6 +179,7 @@ body, div, span, input, textarea {
             st.markdown("""
 **👉 [평가하기](https://docs.google.com/forms/d/e/1FAIpQLScgaEChMcfui-9CW_58Yv4jwqP33Pa3iNAIY8xEzF19kFL1qQ/viewform?usp=dialog)**
 """)
+            st.stop()
         # rerun 없이 그대로 아래 렌더 단계로 이동
         else:
             st.session_state.awaiting_response = False
