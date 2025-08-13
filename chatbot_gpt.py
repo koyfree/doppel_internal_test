@@ -73,7 +73,7 @@ body, div, span, input, textarea {
         if key not in st.session_state:
             st.session_state[key] = default
 
-    st.title("🧠 AITwinBot 대화 시작")
+    st.title("🧠 TwinBot과의 대화")
     st.markdown(f"""
     **🙋 사용자 이름:** {user_name}  
     **🧠 챗봇 유형:** {chatbot_type}  
