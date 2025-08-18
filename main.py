@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from knowledge_builder import build_knowledge_dict
+from knowledge_builder import build_knowledge_dict, build_knowledge_dict_sp
 
 # 구글시트에서 CSV 읽기 (전체공개 설정 시 작동)
 SHEET_URL = (
