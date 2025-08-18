@@ -32,9 +32,9 @@ if st.session_state.step == "select":
     if user_name != "--- 이름을 선택하세요 ---":
         chatbot_type = st.radio("챗봇 유형을 선택하세요:", ["도플갱어 챗봇"])
         topic = st.radio("대화 주제를 선택하세요:", ["정신 건강", "관계 갈등"])
-        model = st.radio("모델을 선택하세요:", ["GPT-4.1", "GPT-5(통합)", "GPT-5(분리)"])
+        model = st.radio("모델을 선택하세요:", ["GPT-4.1(원래)", "GPT-4.1(분리)", "GPT-5(원래)", "GPT-5(분리)"])
         
-        if model == "GPT-5(분리)":
+        if model in ["GPT-5(분리)", "GPT-4(분리)"]:
             profiles = load_profiles_split()
         else:
             profiles = load_profiles_org()
@@ -55,10 +55,12 @@ if st.session_state.step == "select":
 
 # STEP 2: 단일 chatbot 모듈 실행
 elif st.session_state.step == "chat":  
-    if st.session_state.model == "GPT-4.1":
-        import chatbot_gpt4_intg as app
-    elif st.session_state.model == "GPT-5(통합)":
-        import chatbot_gpt5_intg as app
+    if st.session_state.model == "GPT-4.1(원래)":
+        import chatbot_gpt4_org as app
+    elif st.session_state.model == "GPT-4.1(분리)":
+        import chatbot_gpt4_sp as app
+    elif st.session_state.model == "GPT-5(원래)":
+        import chatbot_gpt5_org as app
     elif st.session_state.model == "GPT-5(분리)":
         import chatbot_gpt5_sp as app
 
