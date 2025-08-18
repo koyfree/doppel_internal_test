@@ -32,7 +32,7 @@ if st.session_state.step == "select":
         chatbot_type = st.radio("챗봇 유형을 선택하세요:", ["도플갱어 챗봇"#, "일반 챗봇"])
                                                  ])
         topic = st.radio("대화 주제를 선택하세요:", ["정신 건강", "관계 갈등"])
-        model = st.radio("모델을 선택하세요:", ["GPT-4.1", "GPT-5"#, "Gemini 2.5 Flash"])
+        model = st.radio("모델을 선택하세요:", ["GPT-4.1", "GPT-5(통합)", "GPT-5(분리)"])
                                        ])
 
         if st.button("다음"):
@@ -50,10 +50,10 @@ if st.session_state.step == "select":
 elif st.session_state.step == "chat":  
     if st.session_state.model == "GPT-4.1":
         import chatbot_gpt4_intg as app
-    elif st.session_state.model == "GPT-5":
+    elif st.session_state.model == "GPT-5(통합)":
         import chatbot_gpt5_intg as app
-    #elif st.session_state.model == "Gemini 2.5 Flash":
-        #import chatbot_gemini as app
+    elif st.session_state.model == "GPT-5(분리)":
+        import chatbot_gpt5_sp as app
 
     app.run(
         user_name=st.session_state.user_name,
