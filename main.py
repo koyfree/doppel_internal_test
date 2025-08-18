@@ -13,26 +13,29 @@ if "step" not in st.session_state:
 
 # 프로필 불러오기
 @st.cache_data
-def load_profiles():
+def load_profiles_org():
     return build_knowledge_dict(SHEET_URL)
+
+@st.cache_data
+def load_profiles_split():
+    return build_knowledge_dict_sp(SHEET_URL)
 
 # STEP 1: 조건 선택
 if st.session_state.step == "select":
     st.title("실험 조건 선택")
 
-    profiles = load_profiles()
     raw_names = list(profiles.keys())
     name_options = ["--- 이름을 선택하세요 ---"] + raw_names
     user_name = st.selectbox("이름을 선택하세요:", name_options)
 
     if user_name != "--- 이름을 선택하세요 ---":
-        # st.markdown("#### 🧾 당신의 프로필")
-        # st.code(profiles[user_name])
-
-        chatbot_type = st.radio("챗봇 유형을 선택하세요:", ["도플갱어 챗봇"#, "일반 챗봇"])
-                                                 ])
+        chatbot_type = st.radio("챗봇 유형을 선택하세요:", ["도플갱어 챗봇"])
         topic = st.radio("대화 주제를 선택하세요:", ["정신 건강", "관계 갈등"])
         model = st.radio("모델을 선택하세요:", ["GPT-4.1", "GPT-5(통합)", "GPT-5(분리)"])
+        if model == "GPT-5(분리)":
+                profiles = load_profiles_split()
+            else:
+                profiles = load_profiles_org()
 
         if st.button("다음"):
             st.session_state.update({
