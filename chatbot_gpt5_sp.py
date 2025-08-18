@@ -27,8 +27,8 @@ def render_message(speaker, msg):
     """
     st.markdown(html, unsafe_allow_html=True)
 
-# 👉 프롬프트 로딩 함수
-def load_prompt(chatbot_type, topic, language, profile):
+# 👉 프롬프트 로딩 함수 (프롬프트만 반환)
+def load_prompt(chatbot_type, topic, language):
     type_key = "dpl" if chatbot_type == "도플갱어 챗봇" else "gen"
     topic_key = "mtl" if topic == "정신 건강" else "rel"
     lang_key = "eng"
@@ -40,7 +40,8 @@ def load_prompt(chatbot_type, topic, language, profile):
     except FileNotFoundError:
         base_prompt = "[ERROR] No Prompt File"
 
-    return base_prompt.strip() + "\n\n---------------------\nKnowledge Section:\n" + profile
+    # 분리 전략: 여기서는 프롬프트(행동 규칙)만 반환
+    return base_prompt.strip()
 
 # 👉 메인 실행 함수
 def run(user_name, profile, chatbot_type, topic, language):
@@ -78,7 +79,7 @@ body, div, span, input, textarea {
     **🙋 사용자 이름:** {user_name}  
     **🧠 챗봇 유형:** {chatbot_type}  
     **💬 대화 주제:** {topic}  
-    **⚙️ 사용 모델:** {st.session_state.model}
+    **⚙️ 사용 모델:** {st.session_state.get('model', 'gpt-5')}
     """)
 
     # ✅ 인트로 메시지 & 첫 응답
@@ -100,16 +101,29 @@ body, div, span, input, textarea {
             render_message("🤖", msg)
             time.sleep(0.5)
 
-        full_prompt = load_prompt(chatbot_type, topic, language, profile)
-        st.session_state.messages.append({"role": "system", "content": full_prompt})
+        # 프롬프트/지식 분리 주입
+        base_prompt = load_prompt(chatbot_type, topic, language)
+        # 1) 프롬프트 → developer (SDK가 지원하지 않으면 "system"으로 교체하세요)
+        st.session_state.messages.append({
+            "role": "developer",
+            "content": base_prompt
+        })
+        # 2) 지식 → 초기 user
+        st.session_state.messages.append({
+            "role": "user",
+            "content": "Knowledge Section:\n" + profile
+        })
 
         with st.spinner("🤖 Twinbot is typing now..."):
             try:
                 response = client.chat.completions.create(
-                    model="gpt-4.1",
+                    model="gpt-5",
                     messages=st.session_state.messages,
-                    temperature=1,
-                    max_tokens=2048
+                    response_format={
+                    "type": "text"
+                    },
+                    verbosity="medium",
+                    reasoning_effort="medium"
                 )
                 first_reply = response.choices[0].message.content
             except Exception as e:
@@ -134,7 +148,6 @@ body, div, span, input, textarea {
         st.session_state.awaiting_response = False
         st.session_state.pending_user_input = None
         st.markdown("""
-
 """)
         st.markdown("""
 **✅ 대화가 여기서 마무리되었어요! 아래 링크를 눌러 어떠셨는지 평가 부탁드립니다!**
@@ -166,10 +179,13 @@ body, div, span, input, textarea {
         with st.spinner("🤖 Twinbot is typing now..."):
             try:
                 response = client.chat.completions.create(
-                    model="gpt-4.1",
+                    model="gpt-5",
                     messages=st.session_state.messages,
-                    temperature=1,
-                    max_tokens=2048
+                    response_format={
+                    "type": "text"
+                    },
+                    verbosity="medium",
+                    reasoning_effort="medium"
                 )
                 reply = response.choices[0].message.content
             except Exception as e:
@@ -185,7 +201,6 @@ body, div, span, input, textarea {
             st.session_state.awaiting_response = False
             st.session_state.pending_user_input = None
             st.markdown("""
-
 """)
             st.markdown("""
 **✅ 대화가 여기서 마무리되었어요! 아래 링크를 눌러 어떠셨는지 평가 부탁드립니다!**
@@ -193,8 +208,6 @@ body, div, span, input, textarea {
             st.markdown("""
 **👉 [평가하기](https://docs.google.com/forms/d/e/1FAIpQLScgaEChMcfui-9CW_58Yv4jwqP33Pa3iNAIY8xEzF19kFL1qQ/viewform?usp=dialog)**
 """)
-        # rerun 없이 그대로 아래 렌더 단계로 이동
         else:
             st.session_state.awaiting_response = False
             st.rerun()
-    
