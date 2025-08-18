@@ -49,7 +49,9 @@ if st.session_state.step == "select":
                 "step": "chat"
             })
             st.rerun()
-
+        if st.button("프로필 보기"):
+            st.code(profiles[user_name])
+    
 # STEP 2: 단일 chatbot 모듈 실행
 elif st.session_state.step == "chat":  
     if st.session_state.model == "GPT-4.1":
