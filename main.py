@@ -33,9 +33,9 @@ if st.session_state.step == "select":
         topic = st.radio("대화 주제를 선택하세요:", ["정신 건강", "관계 갈등"])
         model = st.radio("모델을 선택하세요:", ["GPT-4.1", "GPT-5(통합)", "GPT-5(분리)"])
         if model == "GPT-5(분리)":
-                profiles = load_profiles_split()
-            else:
-                profiles = load_profiles_org()
+            profiles = load_profiles_split()
+        else:
+            profiles = load_profiles_org()
 
         if st.button("다음"):
             st.session_state.update({
