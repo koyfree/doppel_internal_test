@@ -24,6 +24,7 @@ def load_profiles_split():
 if st.session_state.step == "select":
     st.title("실험 조건 선택")
 
+    profiles = load_profiles_org()
     raw_names = list(profiles.keys())
     name_options = ["--- 이름을 선택하세요 ---"] + raw_names
     user_name = st.selectbox("이름을 선택하세요:", name_options)
@@ -32,6 +33,7 @@ if st.session_state.step == "select":
         chatbot_type = st.radio("챗봇 유형을 선택하세요:", ["도플갱어 챗봇"])
         topic = st.radio("대화 주제를 선택하세요:", ["정신 건강", "관계 갈등"])
         model = st.radio("모델을 선택하세요:", ["GPT-4.1", "GPT-5(통합)", "GPT-5(분리)"])
+        
         if model == "GPT-5(분리)":
             profiles = load_profiles_split()
         else:
