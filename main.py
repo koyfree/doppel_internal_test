@@ -38,7 +38,10 @@ if st.session_state.step == "select":
             profiles = load_profiles_split()
         else:
             profiles = load_profiles_org()
-
+               
+        if st.button("프로필 보기"):
+            st.code(profiles[user_name])
+    
         if st.button("다음"):
             st.session_state.update({
                 "user_name": user_name,
@@ -49,9 +52,7 @@ if st.session_state.step == "select":
                 "step": "chat"
             })
             st.rerun()
-        if st.button("프로필 보기"):
-            st.code(profiles[user_name])
-    
+
 # STEP 2: 단일 chatbot 모듈 실행
 elif st.session_state.step == "chat":  
     if st.session_state.model == "GPT-4.1":
