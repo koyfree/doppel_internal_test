@@ -1,4 +1,2 @@
 streamlit
-openai
-anthropic
-google-generativeai
+openai>=1.40.0
