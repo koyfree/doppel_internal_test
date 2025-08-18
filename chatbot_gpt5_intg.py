@@ -106,10 +106,11 @@ body, div, span, input, textarea {
         with st.spinner("🤖 Twinbot is typing now..."):
             try:
                 response = client.chat.completions.create(
-                    model="gpt-4.1",
+                    model="gpt-5",
                     messages=st.session_state.messages,
-                    temperature=1,
-                    max_tokens=2048
+                    response_format={"type": "text"},      
+                    reasoning_effort="medium",             
+                    verbosity="medium",                    
                 )
                 first_reply = response.choices[0].message.content
             except Exception as e:
@@ -166,10 +167,11 @@ body, div, span, input, textarea {
         with st.spinner("🤖 Twinbot is typing now..."):
             try:
                 response = client.chat.completions.create(
-                    model="gpt-4.1",
+                    model="gpt-5",
                     messages=st.session_state.messages,
-                    temperature=1,
-                    max_tokens=2048
+                    response_format={"type": "text"},      
+                    reasoning_effort="medium",             
+                    verbosity="medium",                    
                 )
                 reply = response.choices[0].message.content
             except Exception as e:
