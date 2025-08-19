@@ -46,7 +46,7 @@ def build_knowledge_dict_sp(sheet_url: str) -> dict:
     for _, row in df.iterrows():
         name = row['Name']
         knowledge[name] = f"""
-Here’s my background for context (not a question). Please treat it as a reference.
+Here’s my "Knowledge Section", background information about myself for context (not a question). Please treat it as a reference.
 
 Profile:
 [Demographics]
