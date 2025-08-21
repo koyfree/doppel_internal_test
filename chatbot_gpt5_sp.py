@@ -122,8 +122,8 @@ body, div, span, input, textarea {
                     response_format={
                     "type": "text"
                     },
-                    verbosity="medium",
-                    reasoning_effort="medium"
+                    verbosity="minimal",
+                    reasoning_effort="low"
                 )
                 first_reply = response.choices[0].message.content
             except Exception as e:
@@ -184,8 +184,8 @@ body, div, span, input, textarea {
                     response_format={
                     "type": "text"
                     },
-                    verbosity="medium",
-                    reasoning_effort="medium"
+                    verbosity="minimal",
+                    reasoning_effort="low"
                 )
                 reply = response.choices[0].message.content
             except Exception as e:
