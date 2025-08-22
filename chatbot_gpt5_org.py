@@ -111,7 +111,7 @@ body, div, span, input, textarea {
                     messages=st.session_state.messages,
                     response_format={"type": "text"},      
                     reasoning_effort="medium",             
-                    verbosity="minimal",                    
+                    verbosity="low",                    
                 )
                 first_reply = response.choices[0].message.content
             except Exception as e:
@@ -173,7 +173,7 @@ body, div, span, input, textarea {
                     messages=st.session_state.messages,
                     response_format={"type": "text"},      
                     reasoning_effort="medium",             
-                    verbosity="minimal",                    
+                    verbosity="low",                    
                 )
                 reply = response.choices[0].message.content
             except Exception as e:
