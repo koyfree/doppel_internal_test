@@ -32,7 +32,7 @@ if st.session_state.step == "select":
     if user_name != "--- 이름을 선택하세요 ---":
         chatbot_type = st.radio("챗봇 유형을 선택하세요:", ["도플갱어 챗봇"])
         topic = st.radio("대화 주제를 선택하세요:", ["정신 건강", "관계 갈등"])
-        model = st.radio("모델을 선택하세요:", ["① GPT-4.1(원래)", "② GPT-4.1(분리)", "③ GPT-5(원래)", "④ GPT-5(분리)"])
+        model = st.radio("모델을 선택하세요:", ["② GPT-4.1(분리)", "④ GPT-5(분리)"])
         
         if model in ["④ GPT-5(분리)", "② GPT-4.1(분리)"]:
             profiles = load_profiles_split()
