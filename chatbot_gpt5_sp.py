@@ -123,7 +123,7 @@ body, div, span, input, textarea {
                     "type": "text"
                     },
                     verbosity="minimal",
-                    reasoning_effort="low"
+                    reasoning_effort="medium"
                 )
                 first_reply = response.choices[0].message.content
             except Exception as e:
@@ -185,7 +185,7 @@ body, div, span, input, textarea {
                     "type": "text"
                     },
                     verbosity="minimal",
-                    reasoning_effort="low"
+                    reasoning_effort="medium"
                 )
                 reply = response.choices[0].message.content
             except Exception as e:
