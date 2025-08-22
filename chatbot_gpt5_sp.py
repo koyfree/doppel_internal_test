@@ -123,7 +123,7 @@ body, div, span, input, textarea {
                     response_format={
                     "type": "text"
                     },
-                    verbosity="minimal",
+                    verbosity="low",
                     reasoning_effort="medium"
                 )
                 first_reply = response.choices[0].message.content
@@ -186,7 +186,7 @@ body, div, span, input, textarea {
                     response_format={
                     "type": "text"
                     },
-                    verbosity="minimal",
+                    verbosity="low",
                     reasoning_effort="medium"
                 )
                 reply = response.choices[0].message.content
