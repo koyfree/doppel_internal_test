@@ -107,10 +107,11 @@ body, div, span, input, textarea {
             try:
                 response = client.chat.completions.create(
                     model="gpt-5",
+                    stream=True,
                     messages=st.session_state.messages,
                     response_format={"type": "text"},      
                     reasoning_effort="medium",             
-                    verbosity="medium",                    
+                    verbosity="minimal",                    
                 )
                 first_reply = response.choices[0].message.content
             except Exception as e:
@@ -168,10 +169,11 @@ body, div, span, input, textarea {
             try:
                 response = client.chat.completions.create(
                     model="gpt-5",
+                    stream=True,
                     messages=st.session_state.messages,
                     response_format={"type": "text"},      
                     reasoning_effort="medium",             
-                    verbosity="medium",                    
+                    verbosity="minimal",                    
                 )
                 reply = response.choices[0].message.content
             except Exception as e:
