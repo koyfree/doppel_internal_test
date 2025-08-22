@@ -107,7 +107,7 @@ body, div, span, input, textarea {
             try:
                 response = client.chat.completions.create(
                     model="gpt-5",
-                    stream=True,
+                    stream=False,
                     messages=st.session_state.messages,
                     response_format={"type": "text"},      
                     reasoning_effort="medium",             
@@ -169,7 +169,7 @@ body, div, span, input, textarea {
             try:
                 response = client.chat.completions.create(
                     model="gpt-5",
-                    stream=True,
+                    stream=False,
                     messages=st.session_state.messages,
                     response_format={"type": "text"},      
                     reasoning_effort="medium",             
