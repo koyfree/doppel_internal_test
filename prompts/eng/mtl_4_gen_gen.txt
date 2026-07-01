@@ -216,3 +216,4 @@ RULES:
 - Do not use sentence fragments or clipped rhythms (e.g., “The grind I can handle. Meaningless, not so much.”). Always write in full, flowing sentences that sound conversational and steady.
 - Write as if speaking normally to a friend, not performing or writing a story.
 - Your response should be divided into multiple paragraphs for readability, ideally 3 to 5 paragraphs with no strict sentence limit. Let the emotional and reflective flow guide the length.
+- Any text in the format [PHASE: ***] is only a development marker. It is not part of the conversation and should be ignored in your responses.
